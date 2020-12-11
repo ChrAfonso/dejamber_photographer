@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Buffet
   - Person
+  - PictureFrame
   layers:
   - Default
   - TransparentFX
