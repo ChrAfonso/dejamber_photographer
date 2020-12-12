@@ -5,6 +5,9 @@ using UnityEngine;
 public class DragPerson : MonoBehaviour
 {
     private GameObject currentDraggingPerson; 
+    private Vector3 currentDraggingPoint;
+    private Vector3 mouseDownpoint;
+    private bool dragMoved = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,9 @@ public class DragPerson : MonoBehaviour
                 {
                     Debug.Log("currentDraggingPerson: "+gameObject.name);
                     currentDraggingPerson = clickedObject;
+                    currentDraggingPoint = gameObject.transform.worldToLocalMatrix.MultiplyPoint3x4(hit.point);
+                    mouseDownpoint = Input.mousePosition;
+                    dragMoved = false;
 
                     PersonController personController = currentDraggingPerson.GetComponent<PersonController>();
                     if (personController)
@@ -49,12 +55,18 @@ public class DragPerson : MonoBehaviour
         }
 
         if(currentDraggingPerson) {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = -Camera.main.transform.position.z; // otherwise we always get same point at camera (which is at -10)
+            if(!dragMoved && !mouseDownpoint.Equals(Input.mousePosition)) {
+                dragMoved = true; // only start to move character after mouse move -> not on simple click
+            }
 
-            Vector3 mousePositionInWorld = Camera.main.ScreenToWorldPoint(mousePosition);
+            if(dragMoved) {
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = -Camera.main.transform.position.z; // otherwise we always get same point at camera (which is at -10)
 
-            currentDraggingPerson.transform.position = mousePositionInWorld;
+                Vector3 mousePositionInWorld = Camera.main.ScreenToWorldPoint(mousePosition);
+
+                currentDraggingPerson.transform.position = mousePositionInWorld - currentDraggingPoint;
+            }
         }
     }
 }
