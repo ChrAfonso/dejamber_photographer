@@ -7,19 +7,23 @@ public class Cooldown : MonoBehaviour
 {
     public string ActionAtEnd = "";
     public float DurationCD = 5;
+    private float leftTime = 0;
+
     
 
-    private float leftTime = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         leftTime = DurationCD;
-    }
+        
+}
 
     // Update is called once per frame
     void Update()
     {
+
+
         if (leftTime>0)
         {
             leftTime -= Time.deltaTime;
@@ -31,6 +35,7 @@ public class Cooldown : MonoBehaviour
             MonoBehaviour action = gameObject.GetComponent<MoveToBuffet>();
             action.enabled = true;
             this.enabled = false;
+
         }
 
         
@@ -39,4 +44,6 @@ public class Cooldown : MonoBehaviour
     {
         return leftTime / DurationCD;
     }
+
+   
 }

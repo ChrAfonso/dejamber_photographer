@@ -2,31 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefillCooldown : MonoBehaviour
+public class RefillMood : MonoBehaviour
 {
+    public float MoodValue = 5;
+    private float leftMood = 0;
 
-    public float DurationCD = 5;
-    private float leftTime = 0;
-    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (leftTime < DurationCD)
+        if (leftMood < MoodValue)
         {
-            leftTime += Time.deltaTime;
+            leftMood += Time.deltaTime;
         }
         else
         {
-           
-            Debug.Log(" DurationCD ist wieder aufgefüllt.");
+            Debug.Log(" MoodValue ist wieder aufgefüllt.");
             
             this.enabled = false;
         }
@@ -35,6 +33,6 @@ public class RefillCooldown : MonoBehaviour
     }
     public float getValue()
     {
-        return leftTime;
+        return leftMood;
     }
 }
