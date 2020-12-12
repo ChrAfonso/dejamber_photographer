@@ -13,6 +13,9 @@ public class GameController : MonoBehaviour
         END
     }
 
+    // TEST
+    public Material girlMaterial;
+
     public int NumberOfPersons = 4;
 
     public GameObject PersonPrefab;
@@ -37,6 +40,9 @@ public class GameController : MonoBehaviour
             GameObject person = GameObject.Instantiate(PersonPrefab);
             person.transform.position = homePositions[p].transform.position;
             // TODO set person values: character image, settings, ...
+
+            // TET
+            person.GetComponent<Renderer>().material = girlMaterial;
 
             persons.Add(person);
         }
