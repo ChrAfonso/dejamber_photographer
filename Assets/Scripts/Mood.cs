@@ -5,8 +5,8 @@ using UnityEngine;
 public class Mood : MonoBehaviour
 {
 
-    public float MoodValue = 10;
-    private float leftMood = 0;
+    public float MoodValue;
+    private float leftMood;
 
     // Start is called before the first frame update
     void Start()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RefillMood : MonoBehaviour
 {
-    public float MoodValue = 5;
-    private float leftMood = 0;
+    public float MoodValue;
+    private float leftMood;
 
 
 
