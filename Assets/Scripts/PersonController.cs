@@ -106,35 +106,37 @@ public class PersonController : MonoBehaviour
             case States.HAPPY:
                 cooldown.enabled = true;
                 cooldown.Reset();
-                moveToTarget.enabled = false;
+                if(moveToTarget) moveToTarget.enabled = false;
 
                 if(spriteRenderer) spriteRenderer.sprite = happySprite;
                 break;
 
             case States.BORED:
-                moveToTarget.enabled = false;
+                if(moveToTarget) moveToTarget.enabled = false;
                 cooldown.enabled = true;
 
                 if(spriteRenderer) spriteRenderer.sprite = boredSprite;
                 break;
 
             case States.MOVING:
-                moveToTarget.enabled = true;
-                moveToTarget.Reset();
+                if(moveToTarget) {
+                    moveToTarget.enabled = true;
+                    moveToTarget.Reset();
+                }
                 cooldown.enabled = false;
 
                 if(spriteRenderer) spriteRenderer.sprite = movingSprite;
                 break;
 
             case States.ARRIVED:
-                moveToTarget.enabled = false;
+                if(moveToTarget) moveToTarget.enabled = false;
                 cooldown.enabled = false;
 
                 if(spriteRenderer) spriteRenderer.sprite = arrivedSprite;
                 break;
 
             case States.SLEEP:
-                moveToTarget.enabled = false;
+                if(moveToTarget) moveToTarget.enabled = false;
                 cooldown.enabled = false;
 
                 if(spriteRenderer) spriteRenderer.sprite = sleepSprite;
@@ -152,7 +154,7 @@ public class PersonController : MonoBehaviour
         // TODO store state, if adding specific dragging state (flailing arms, sound, ...?)
         cooldown.enabled = false;
         if(moodCooldown != null) moodCooldown.enabled = false;
-        moveToTarget.enabled = false;
+        if(moveToTarget) moveToTarget.enabled = false;
     }
 
     public void StopDragging()
