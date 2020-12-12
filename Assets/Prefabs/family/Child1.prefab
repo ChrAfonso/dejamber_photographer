@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
+  TargetName: Spielhaus
   MinArriveDistance: 2
   MoveSpeed: 2
 --- !u!114 &338150741591146429

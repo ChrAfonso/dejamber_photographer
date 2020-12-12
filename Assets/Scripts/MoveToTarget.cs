@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveToTarget : MonoBehaviour
 {
     public GameObject Target;
+    public string TargetName;
 
     public float MinArriveDistance;
     public float MoveSpeed;

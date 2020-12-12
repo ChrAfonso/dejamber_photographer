@@ -30,7 +30,7 @@ public class PersonController : MonoBehaviour
     private bool dragging = false;
 
     private Cooldown cooldown;
-    private Mood moodCooldown;
+    private Mood moodCooldown; // optional
     private MoveToTarget moveToTarget;
 
     new private Collider2D collider;
@@ -75,7 +75,11 @@ public class PersonController : MonoBehaviour
                 if (cooldown.getValue() == 0)
                 {
                     Debug.Log("Cooldown is zero");
-                    EnterState(States.MOVING);
+                    if(moveToTarget) {
+                        EnterState(States.MOVING);
+                    } else { // Grandparents
+                        EnterState(States.SLEEP);
+                    }
                 }
                 break;
 
