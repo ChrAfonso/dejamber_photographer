@@ -38,13 +38,19 @@ public class GameController : MonoBehaviour
         persons = new List<GameObject>();
         for(int p = 0; p < PersonPrefabs.Length; p++) {
             GameObject person = GameObject.Instantiate(PersonPrefabs[p]);
-            person.transform.position = homePositions[p].transform.position;
             person.transform.parent = familyTransform;
 
             person.GetComponent<PersonController>().SetHomePosition(homePositions[p]);
+            person.transform.position = homePositions[p].transform.position;
+
             // TODO? (if not defined in prefab) set person values: character image, cooldown/target settings, ...
 
             persons.Add(person);
+        }
+
+        // hide home positions, will only be visible while dragging person
+        foreach(GameObject homePosition in homePositions) {
+            homePosition.GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
 
         pictureFrame = GameObject.FindGameObjectWithTag("PictureFrame");

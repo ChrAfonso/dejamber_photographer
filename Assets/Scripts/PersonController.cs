@@ -143,8 +143,9 @@ public class PersonController : MonoBehaviour
     public void StartDragging()
     {
         dragging = true;
+        homePosition.GetComponentInChildren<SpriteRenderer>().enabled = true;
 
-        // TODO store state
+        // TODO store state, if adding specific dragging state (flailing arms, sound, ...?)
         cooldown.enabled = false;
         moodCooldown.enabled = false;
         moveToTarget.enabled = false;
@@ -153,6 +154,7 @@ public class PersonController : MonoBehaviour
     public void StopDragging()
     {
         dragging = false;
+        homePosition.GetComponentInChildren<SpriteRenderer>().enabled = false;
 
         // check drop point - intersect with homePosition?
         bool droppedOnHome = overlapsTriggers.Contains(homeCollider);
