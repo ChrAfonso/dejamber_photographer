@@ -187,6 +187,13 @@ public class PersonController : MonoBehaviour
         Debug.Log(overlapsTriggers.Count);
     }
 
+    void OnTriggerStay2D(Collider2D trigger) {
+        if(!overlapsTriggers.Contains(trigger)) {
+            Debug.Log("Adding trigger "+trigger.name+" on stay");
+            overlapsTriggers.Add(trigger);
+        }
+    }
+
      void OnTriggerExit2D(Collider2D trigger) {
         Debug.Log("Exit trigger "+trigger.name);
         overlapsTriggers.Remove(trigger);
