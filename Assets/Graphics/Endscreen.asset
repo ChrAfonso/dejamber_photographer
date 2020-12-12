@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Endscreen
   m_EditorClassIdentifier: 
   colorMode: 3
-  topLeft: {r: 0.8862745, g: 0.25679952, b: 0.027450966, a: 1}
-  topRight: {r: 0.8862745, g: 0.83879507, b: 0.027450966, a: 1}
-  bottomLeft: {r: 0.627451, g: 0.06365271, b: 0, a: 1}
-  bottomRight: {r: 0.6698113, g: 0.47843665, b: 0, a: 1}
+  topLeft: {r: 0.9716981, g: 0.9011125, b: 0.875445, a: 1}
+  topRight: {r: 1, g: 1, b: 1, a: 1}
+  bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+  bottomRight: {r: 0.990566, g: 0.96512693, b: 0.9017889, a: 1}
