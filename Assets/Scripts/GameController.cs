@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public GameObject[] PersonPrefabs;
 
     public GameObject[] homePositions;
+    
 
     private List<GameObject> persons;
 

@@ -33,10 +33,10 @@ public class DragItem : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            // Debug.Log("mouseup!");
+            Debug.Log("mouseup!");
             if (currentDraggingItem)
             {
-               currentDraggingItem = null;
+              currentDraggingItem = null;
             }
         }
 
