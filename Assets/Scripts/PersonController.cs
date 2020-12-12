@@ -52,7 +52,7 @@ public class PersonController : MonoBehaviour
             case States.HAPPY:
                 if(!cooldown.enabled) {
                     cooldown.enabled = true;
-                    cooldown.Reset();
+                    //cooldown.Reset();
                 }
 
                 if (cooldown.getValue() <= 0.5)

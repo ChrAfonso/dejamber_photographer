@@ -6,8 +6,8 @@ using UnityEngine;
 public class Cooldown : MonoBehaviour
 {
     public string ActionAtEnd = "";
-    public float DurationCD = 5;
-    private float leftTime = 0;
+    public float DurationCD;
+    private float leftTime;
 
     
 
@@ -15,12 +15,9 @@ public class Cooldown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Reset();
-    }
-
-    public void Reset() {
         leftTime = DurationCD;
-    }
+        
+}
 
     // Update is called once per frame
     void Update()
@@ -34,9 +31,6 @@ public class Cooldown : MonoBehaviour
         else
         {
             leftTime = 0;
-            Debug.Log("Ist angekommen. - Cooldown finished");
-            MonoBehaviour action = gameObject.GetComponent<MoveToBuffet>();
-            action.enabled = true;
             this.enabled = false;
 
         }
