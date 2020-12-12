@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PersonController : MonoBehaviour
 {
-    private enum States
+    public enum States
     {
         HAPPY,
         BORED,
@@ -17,7 +17,7 @@ public class PersonController : MonoBehaviour
 
     public GameObject HomePosition;
     
-    private States playerState = States.HAPPY;
+    public States playerState { get; private set; } = States.HAPPY;
 
     private bool dragging = false;
 
