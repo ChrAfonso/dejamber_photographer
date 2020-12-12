@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
         END
     }
 
-    // TEST
+    // TEST - TODO: make list or lookup - or save prefabs for each person?
     public Material girlMaterial;
 
     public int NumberOfPersons = 4;
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
 
     private List<GameObject> persons;
 
+    private Transform familyTransform;
     private GameObject pictureFrame;
 
     private States currentState = States.SETUP;
@@ -30,6 +31,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        familyTransform = transform.Find("Family");
+
         InitRound();
     }
 
@@ -39,9 +42,11 @@ public class GameController : MonoBehaviour
         for(int p = 0; p < NumberOfPersons; p++) {
             GameObject person = GameObject.Instantiate(PersonPrefab);
             person.transform.position = homePositions[p].transform.position;
-            // TODO set person values: character image, settings, ...
+            person.transform.parent = familyTransform;
 
-            // TET
+            // TODO set person values: character image, cooldown/target settings, ...
+
+            // TEST
             person.GetComponent<Renderer>().material = girlMaterial;
 
             persons.Add(person);

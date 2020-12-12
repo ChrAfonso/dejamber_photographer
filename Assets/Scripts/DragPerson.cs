@@ -16,14 +16,13 @@ public class DragPerson : MonoBehaviour
     void Update()
     {
         if(Input.GetMouseButtonDown(0)) {
-            Debug.Log("mousedown!");
+            // Debug.Log("mousedown!");
             Ray worldRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(worldRay);
             if (hit)
             {
                 GameObject clickedObject = hit.transform.gameObject;
-                Debug.Log("hit object with tag: "+clickedObject.tag);
-                // if (clickedObject.tag == "Person")
+                // Debug.Log("hit object with tag: "+clickedObject.tag);
                 if(clickedObject == gameObject)
                 {
                     Debug.Log("currentDraggingPerson: "+gameObject.name);
@@ -38,7 +37,7 @@ public class DragPerson : MonoBehaviour
                 }
             }
         } else if(Input.GetMouseButtonUp(0)) {
-            Debug.Log("mouseup!");
+            // Debug.Log("mouseup!");
             if(currentDraggingPerson) {
                 PersonController personController = currentDraggingPerson.GetComponent<PersonController>();
                 if (personController)
@@ -52,7 +51,14 @@ public class DragPerson : MonoBehaviour
         }
 
         if(currentDraggingPerson) {
-            currentDraggingPerson.transform.position = (Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition)); //  - currentDraggingPerson.GetComponent<Renderer>().bounds.center
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = -Camera.main.transform.position.z; // otherwise we always get same point at camera (which is at -10)
+            // Debug.Log("mousePosition on screen: "+Input.mousePosition);
+
+            Vector3 mousePositionInWorld = Camera.main.ScreenToWorldPoint(mousePosition);
+            // Debug.Log("mousePosition in world: "+mousePositionInWorld);
+
+            currentDraggingPerson.transform.position = mousePositionInWorld;
         }
     }
 }
