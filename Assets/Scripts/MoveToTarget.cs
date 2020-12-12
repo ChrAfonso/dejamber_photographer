@@ -28,20 +28,15 @@ public class MoveToTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Target) {
-            Vector3 directionToBuffet = Target.transform.position - transform.position;
-            float distanceToTarget = directionToBuffet.magnitude;
-            // Debug.Log("Distance to target: " + distanceToTarget);
+        if(Target && !arrived) {
+            Vector3 directionToTarget = Target.transform.position - transform.position;
+            float distanceToTarget = directionToTarget.magnitude;
 
-            // TODO: replace with collider/trigger check
             if(distanceToTarget > MinArriveDistance) {
                 transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, MoveSpeed * Time.deltaTime);
             } else {
-                Debug.Log("Arrived at buffet!");
-
-                // TODO
-
-                this.enabled = false;
+                Debug.Log("Arrived at target!");
+                this.arrived = true;
             }
         }
     }

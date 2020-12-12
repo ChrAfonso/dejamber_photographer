@@ -31,7 +31,7 @@ public class PersonController : MonoBehaviour
 
     private Cooldown cooldown;
     private Mood moodCooldown;
-    private MoveToBuffet moveToTarget;
+    private MoveToTarget moveToTarget;
 
     new private Collider2D collider;
 
@@ -47,7 +47,7 @@ public class PersonController : MonoBehaviour
 
         cooldown = gameObject.GetComponent<Cooldown>();
         // moodCooldown = gameObject.GetComponent<Mood>();
-        moveToTarget = gameObject.GetComponent<MoveToBuffet>(); // TODO replace with generic moveToTarget
+        moveToTarget = gameObject.GetComponent<MoveToTarget>(); // TODO replace with generic moveToTarget
 
         // set random values for cooldowns
         cooldown.DurationCD = Random.Range(5, 7);
@@ -147,7 +147,7 @@ public class PersonController : MonoBehaviour
 
         // TODO store state, if adding specific dragging state (flailing arms, sound, ...?)
         cooldown.enabled = false;
-        moodCooldown.enabled = false;
+        if(moodCooldown != null) moodCooldown.enabled = false;
         moveToTarget.enabled = false;
     }
 
