@@ -16,13 +16,17 @@ public class DragPerson : MonoBehaviour
     void Update()
     {
         if(Input.GetMouseButtonDown(0)) {
+            Debug.Log("mousedown!");
             Ray worldRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(worldRay);
             if (hit)
             {
                 GameObject clickedObject = hit.transform.gameObject;
-                if (clickedObject.tag == "Person") 
+                Debug.Log("hit object with tag: "+clickedObject.tag);
+                // if (clickedObject.tag == "Person")
+                if(clickedObject == gameObject)
                 {
+                    Debug.Log("currentDraggingPerson: "+gameObject.name);
                     currentDraggingPerson = clickedObject;
 
                     PersonController personController = currentDraggingPerson.GetComponent<PersonController>();
@@ -34,6 +38,7 @@ public class DragPerson : MonoBehaviour
                 }
             }
         } else if(Input.GetMouseButtonUp(0)) {
+            Debug.Log("mouseup!");
             if(currentDraggingPerson) {
                 PersonController personController = currentDraggingPerson.GetComponent<PersonController>();
                 if (personController)
@@ -41,7 +46,13 @@ public class DragPerson : MonoBehaviour
                     personController.StopDragging();
                     Debug.Log("Dropping char "+currentDraggingPerson.name+"!");
                 }
+
+                currentDraggingPerson = null;
             }
+        }
+
+        if(currentDraggingPerson) {
+            currentDraggingPerson.transform.position = (Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition)); //  - currentDraggingPerson.GetComponent<Renderer>().bounds.center
         }
     }
 }
