@@ -9,14 +9,20 @@ public class MoveToTarget : MonoBehaviour
     public float MinArriveDistance;
     public float MoveSpeed;
 
+    public bool arrived { get; private set; } = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        if(!Target) {
+        if(Target) {
             Debug.Log("Found target: " + Target.name);
         } else {
             Debug.Log("Could not find target!");
         }
+    }
+
+    public void Reset() {
+        arrived = false;
     }
 
     // Update is called once per frame
@@ -25,7 +31,7 @@ public class MoveToTarget : MonoBehaviour
         if(Target) {
             Vector3 directionToBuffet = Target.transform.position - transform.position;
             float distanceToTarget = directionToBuffet.magnitude;
-            Debug.Log("Distance to target: " + distanceToTarget);
+            // Debug.Log("Distance to target: " + distanceToTarget);
 
             // TODO: replace with collider/trigger check
             if(distanceToTarget > MinArriveDistance) {
