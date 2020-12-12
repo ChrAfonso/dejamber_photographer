@@ -32,7 +32,7 @@ public class MoveToBuffet : MonoBehaviour
         if(buffet && !arrived) {
             Vector3 directionToBuffet = buffet.transform.position - transform.position;
             float distanceToBuffet = directionToBuffet.magnitude;
-            Debug.Log("Distance to buffet: " + distanceToBuffet);
+            // Debug.Log("Distance to buffet: " + distanceToBuffet);
             if(distanceToBuffet > MinArriveDistance) {
                 transform.position = Vector3.MoveTowards(transform.position, buffet.transform.position, MoveSpeed * Time.deltaTime);
             } else {

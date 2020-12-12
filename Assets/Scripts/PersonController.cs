@@ -7,18 +7,26 @@ using UnityEngine;
 
 public class PersonController : MonoBehaviour
 {
-    private enum States
+    public enum States
     {
         HAPPY,
         BORED,
         MOVING,
+        ARRIVED,
         SLEEP
     }
 
-    public GameObject HomePosition;
-    
-    private States playerState = States.HAPPY;
+    public Sprite happySprite;
+    public Sprite boredSprite;
+    public Sprite sleepSprite;
+    public Sprite movingSprite;
+    public Sprite arrivedSprite;
 
+    public States playerState { get; private set; } = States.HAPPY;
+
+    private GameObject homePosition;
+    private Collider2D homeCollider;
+    
     private bool dragging = false;
 
     private Cooldown cooldown;
@@ -27,12 +35,15 @@ public class PersonController : MonoBehaviour
 
     new private Collider2D collider;
 
+    private SpriteRenderer spriteRenderer;
+
     private List<Collider2D> overlapsTriggers;
 
     // Start is called before the first frame update
     void Start()
     {
         collider = GetComponent<Collider2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // Sprite is in child object
 
         cooldown = gameObject.GetComponent<Cooldown>();
         // moodCooldown = gameObject.GetComponent<Mood>();
@@ -43,6 +54,8 @@ public class PersonController : MonoBehaviour
         // moodCooldown.MoodValue = Random.Range(8, 10);
 
         overlapsTriggers = new List<Collider2D>();
+
+        EnterState(States.HAPPY);
     }
 
     // Update is called once per frame
@@ -50,16 +63,11 @@ public class PersonController : MonoBehaviour
     {
         switch(playerState) {
             case States.HAPPY:
-                if(!cooldown.enabled) {
-                    cooldown.enabled = true;
-                    //cooldown.Reset();
-                }
-
                 if (cooldown.getValue() <= 0.5)
                 {
                     // TODO visual notification for desire
                     Debug.Log("need 0.5");
-                    playerState = States.BORED;
+                    EnterState(States.BORED);
                 }
                 break;
 
@@ -67,27 +75,69 @@ public class PersonController : MonoBehaviour
                 if (cooldown.getValue() == 0)
                 {
                     Debug.Log("Cooldown is zero");
-                    playerState = States.MOVING;
+                    EnterState(States.MOVING);
                 }
                 break;
 
             case States.MOVING:
-                if(!moveToTarget.enabled) {
-                    moveToTarget.enabled = true;
-                    moveToTarget.Reset();
-                }
-
                 if(moveToTarget.arrived) {
                     Debug.Log("Arrived!");
-                    // playerState = States.ARRIVED;
+                    EnterState(States.ARRIVED);
                 }
                 break;
             
+            case States.ARRIVED:
+                // TODO do nothing, eat/reload?
+                break;
+
             case States.SLEEP:
                 // TODO stay until click
                 break;
         }
 
+    }
+
+    private void EnterState(States newState) {
+        switch(newState) {
+            case States.HAPPY:
+                cooldown.enabled = true;
+                cooldown.Reset();
+                moveToTarget.enabled = false;
+
+                if(spriteRenderer) spriteRenderer.sprite = happySprite;
+                break;
+
+            case States.BORED:
+                moveToTarget.enabled = false;
+                cooldown.enabled = true;
+
+                if(spriteRenderer) spriteRenderer.sprite = boredSprite;
+                break;
+
+            case States.MOVING:
+                moveToTarget.enabled = true;
+                moveToTarget.Reset();
+                cooldown.enabled = false;
+
+                if(spriteRenderer) spriteRenderer.sprite = movingSprite;
+                break;
+
+            case States.ARRIVED:
+                moveToTarget.enabled = false;
+                cooldown.enabled = false;
+
+                if(spriteRenderer) spriteRenderer.sprite = arrivedSprite;
+                break;
+
+            case States.SLEEP:
+                moveToTarget.enabled = false;
+                cooldown.enabled = false;
+
+                if(spriteRenderer) spriteRenderer.sprite = sleepSprite;
+                break;
+        }
+
+        playerState = newState;
     }
 
     public void StartDragging()
@@ -105,38 +155,39 @@ public class PersonController : MonoBehaviour
         dragging = false;
 
         // check drop point - intersect with homePosition?
-        bool droppedOnHome = false;
-        if(HomePosition) {
-            Collider2D HomePositionCollider = HomePosition.GetComponent<Collider2D>();
-            if(HomePositionCollider && HomePositionCollider.IsTouching(collider)) {
-                Debug.Log("Dropped person "+gameObject.name+" on home!");
-                droppedOnHome = true;
-            }
-        }
+        bool droppedOnHome = overlapsTriggers.Contains(homeCollider);
         
-        //HACK
-        droppedOnHome = true;
         if(droppedOnHome) {
+            Debug.Log("Dropped on home!");
+
             // yes -> reset/snap to home position, idle state
-
-            transform.position = HomePosition.transform.position;
-
-            playerState = States.HAPPY;
+            
+            transform.position = homePosition.transform.position;
+            
+            EnterState(States.HAPPY);
         }
         else
         {
-            // no  -> move again to last visited target
-            moveToTarget.enabled = true;
+            // no -> re-enter current state (and activate relevant scripts)
+            EnterState(playerState);
         }
     }
 
     void OnTriggerEnter2D(Collider2D trigger) {
         Debug.Log("Enter trigger "+trigger.name);
         overlapsTriggers.Add(trigger);
+        Debug.Log(overlapsTriggers.Count);
     }
 
      void OnTriggerExit2D(Collider2D trigger) {
         Debug.Log("Exit trigger "+trigger.name);
         overlapsTriggers.Remove(trigger);
+        Debug.Log(overlapsTriggers.Count);
+    }
+
+    public void SetHomePosition(GameObject homePosition)
+    {
+        this.homePosition = homePosition;
+        this.homeCollider = homePosition.GetComponent<Collider2D>();
     }
 }
