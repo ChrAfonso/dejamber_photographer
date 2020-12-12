@@ -11,6 +11,7 @@ public class PersonController : MonoBehaviour
     {
         HAPPY,
         BORED,
+        MOVING,
         SLEEP
     }
 
@@ -26,48 +27,65 @@ public class PersonController : MonoBehaviour
 
     new private Collider2D collider;
 
+    private List<Collider2D> overlapsTriggers;
+
     // Start is called before the first frame update
     void Start()
     {
         collider = GetComponent<Collider2D>();
 
         cooldown = gameObject.GetComponent<Cooldown>();
-        moodCooldown = gameObject.GetComponent<Mood>();
+        // moodCooldown = gameObject.GetComponent<Mood>();
         moveToTarget = gameObject.GetComponent<MoveToBuffet>(); // TODO replace with generic moveToTarget
 
         // set random values for cooldowns
         cooldown.DurationCD = Random.Range(5, 7);
-        moodCooldown.MoodValue = Random.Range(8, 10);
+        // moodCooldown.MoodValue = Random.Range(8, 10);
 
+        overlapsTriggers = new List<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (cooldown.getValue() <= 0.5)
-        {
-            //visual notification for desire
-            Debug.Log("need 0.5");
-        }
-        if (cooldown.getValue() == 0)
-        {
-            Debug.Log("Cooldown is zero");
-            MonoBehaviour action = gameObject.GetComponent<MoveToBuffet>();
-            action.enabled = true;
-        }
-        //Debug.Log(moodCooldown.getMood());
-        if (moodCooldown.getMood() <= 0.5)
-        {
-            //bored state
-            Debug.Log("bored 0.5");
-            playerState = States.BORED;
+        switch(playerState) {
+            case States.HAPPY:
+                if(!cooldown.enabled) {
+                    cooldown.enabled = true;
+                    cooldown.Reset();
+                }
 
-        }
-        if (moodCooldown.getMood() == 0)
-        {
-            Debug.Log("moodCooldown is zero");
-            MonoBehaviour action = gameObject.GetComponent<MoveToBuffet>();
-            action.enabled = true;
+                if (cooldown.getValue() <= 0.5)
+                {
+                    // TODO visual notification for desire
+                    Debug.Log("need 0.5");
+                    playerState = States.BORED;
+                }
+                break;
+
+            case States.BORED:
+                if (cooldown.getValue() == 0)
+                {
+                    Debug.Log("Cooldown is zero");
+                    playerState = States.MOVING;
+                }
+                break;
+
+            case States.MOVING:
+                if(!moveToTarget.enabled) {
+                    moveToTarget.enabled = true;
+                    moveToTarget.Reset();
+                }
+
+                if(moveToTarget.arrived) {
+                    Debug.Log("Arrived!");
+                    // playerState = States.ARRIVED;
+                }
+                break;
+            
+            case States.SLEEP:
+                // TODO stay until click
+                break;
         }
 
     }
@@ -96,18 +114,29 @@ public class PersonController : MonoBehaviour
             }
         }
         
+        //HACK
+        droppedOnHome = true;
         if(droppedOnHome) {
             // yes -> reset/snap to home position, idle state
 
             transform.position = HomePosition.transform.position;
 
-            cooldown.enabled = true;
-            cooldown.Reset();
+            playerState = States.HAPPY;
         }
         else
         {
             // no  -> move again to last visited target
             moveToTarget.enabled = true;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D trigger) {
+        Debug.Log("Enter trigger "+trigger.name);
+        overlapsTriggers.Add(trigger);
+    }
+
+     void OnTriggerExit2D(Collider2D trigger) {
+        Debug.Log("Exit trigger "+trigger.name);
+        overlapsTriggers.Remove(trigger);
     }
 }

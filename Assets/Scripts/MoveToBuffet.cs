@@ -9,6 +9,8 @@ public class MoveToBuffet : MonoBehaviour
     public float MinArriveDistance;
     public float MoveSpeed;
 
+    public bool arrived { get; private set; } = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +22,14 @@ public class MoveToBuffet : MonoBehaviour
         }
     }
 
+    public void Reset() {
+        arrived = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(buffet) {
+        if(buffet && !arrived) {
             Vector3 directionToBuffet = buffet.transform.position - transform.position;
             float distanceToBuffet = directionToBuffet.magnitude;
             Debug.Log("Distance to buffet: " + distanceToBuffet);
@@ -31,7 +37,7 @@ public class MoveToBuffet : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, buffet.transform.position, MoveSpeed * Time.deltaTime);
             } else {
                 Debug.Log("Arrived at buffet!");
-                this.enabled = false;
+                this.arrived = true;
             }
         }
     }

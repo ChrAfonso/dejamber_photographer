@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour
             person.transform.position = homePositions[p].transform.position;
             person.transform.parent = familyTransform;
 
+            person.GetComponent<PersonController>().HomePosition = homePositions[p];
             // TODO? (if not defined in prefab) set person values: character image, cooldown/target settings, ...
 
             persons.Add(person);
