@@ -14,20 +14,26 @@ public class PersonController : MonoBehaviour
         SLEEP
     }
 
+    public GameObject HomePosition;
+    
     private States playerState = States.HAPPY;
 
     private bool dragging = false;
 
     private Cooldown cooldown;
     private Mood moodCooldown;
-    private MoveToTarget moveToTarget;
+    private MoveToBuffet moveToTarget;
+
+    new private Collider2D collider;
 
     // Start is called before the first frame update
     void Start()
     {
+        collider = GetComponent<Collider2D>();
+
         cooldown = gameObject.GetComponent<Cooldown>();
         moodCooldown = gameObject.GetComponent<Mood>();
-        moveToTarget = gameObject.GetComponent<MoveToTarget>();
+        moveToTarget = gameObject.GetComponent<MoveToBuffet>(); // TODO replace with generic moveToTarget
 
         // set random values for cooldowns
         cooldown.DurationCD = Random.Range(5, 7);
@@ -80,12 +86,28 @@ public class PersonController : MonoBehaviour
     {
         dragging = false;
 
-        // TODO check drop point - intersect with homePosition?
+        // check drop point - intersect with homePosition?
+        bool droppedOnHome = false;
+        if(HomePosition) {
+            Collider2D HomePositionCollider = HomePosition.GetComponent<Collider2D>();
+            if(HomePositionCollider && HomePositionCollider.IsTouching(collider)) {
+                Debug.Log("Dropped person "+gameObject.name+" on home!");
+                droppedOnHome = true;
+            }
+        }
+        
+        if(droppedOnHome) {
+            // yes -> reset/snap to home position, idle state
 
-        // yes -> reset/snap to home position, idle state
+            transform.position = HomePosition.transform.position;
 
-        // no  -> move again to last visited target
-        // moveToTarget.enabled = true;
-
+            cooldown.enabled = true;
+            cooldown.Reset();
+        }
+        else
+        {
+            // no  -> move again to last visited target
+            moveToTarget.enabled = true;
+        }
     }
 }

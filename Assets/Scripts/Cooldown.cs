@@ -15,9 +15,12 @@ public class Cooldown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Reset();
+    }
+
+    public void Reset() {
         leftTime = DurationCD;
-        
-}
+    }
 
     // Update is called once per frame
     void Update()
