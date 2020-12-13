@@ -7,22 +7,28 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public TextMeshProUGUI timer;
-    public float time;
-    public float sec;
-    public float min;
+    private TextMeshPro textMesh;
 
+    public float TotalTime = 120;
 
+    private float time;
+    private float sec;
+    private float min;
 
     private void Start()
     {
+        textMesh = GetComponent<TextMeshPro>();
+    }
+
+    public void Reset()
+    {
+        time = TotalTime;
+
         StartCoroutine("StopWatch");
     }
 
     IEnumerator StopWatch()
     {
-        time = 120;
-
         while (true)
         {
             
@@ -30,17 +36,9 @@ public class Timer : MonoBehaviour
             sec = (int)time % 60;
             min = (int)(time / 60 % 60);
 
-            timer.text = string.Format("{0:00}:{1:00}", min, sec);
+            textMesh.text = string.Format("{0:00}:{1:00}", min, sec);
 
             yield return null;
         }
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-
     }
 }
