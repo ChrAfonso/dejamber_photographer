@@ -8,6 +8,7 @@ TagManager:
   - Person
   - PictureFrame
   - Item
+  - Shopper
   layers:
   - Default
   - TransparentFX
