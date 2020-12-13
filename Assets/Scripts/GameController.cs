@@ -89,10 +89,19 @@ public class GameController : MonoBehaviour
             GameObject person = GameObject.Instantiate(PersonPrefabs[p]);
             person.transform.parent = familyTransform;
 
+            // Set home position
             person.GetComponent<PersonController>().SetHomePosition(homePositions[p]);
             person.transform.position = homePositions[p].transform.position;
 
-            // TODO? (if not defined in prefab) set person values: character image, cooldown/target settings, ...
+            // Find and assign target
+            MoveToTarget moveToTarget = person.GetComponent<MoveToTarget>();
+            if(moveToTarget != null) {
+                GameObject target = GameObject.Find(moveToTarget.TargetName);
+                if(target != null) {
+                    moveToTarget.Target = target;
+                }
+            }
+            // TODO mood cooldown/item settings?
 
             persons.Add(person);
         }
