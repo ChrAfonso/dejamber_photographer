@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     private static GameController _instance = null;
     public static GameController instance { get { return _instance; } private set {} }
 
-    class PhotoScore {
+    public class PhotoScore {
         public Texture2D photo;
         public float score;
 
@@ -121,7 +121,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private PhotoScore GetBestScore()
+    public PhotoScore GetBestScore()
     {
         PhotoScore best = new PhotoScore(null, 0);
         foreach(PhotoScore score in scores) {
