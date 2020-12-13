@@ -28,15 +28,23 @@ public class FlickShopper : MonoBehaviour
                     GameObject clickedObject = hit.transform.gameObject;
                     if(clickedObject == gameObject)
                     {
-                        Velocity = new Vector3(Random.Range(2,5), Random.Range(2,5), Random.Range(0,4));
-                        rotation = Random.Range(-180, 180);
+                        Velocity = new Vector3(Random.Range(5,10), Random.Range(5,10), Random.Range(2,10));
+                        rotation = Random.Range(-720, 720);
                         gameObject.GetComponent<ShopperController>().Move = false;
+                        flicked = true;
+                        StartCoroutine("Kill");
                     }
                 }
             }
         } else {
             transform.Translate(Velocity * Time.deltaTime);
-            transform.Rotate(Vector3.forward, rotation * Time.deltaTime);
+            transform.Rotate(transform.position + Vector3.forward, rotation * Time.deltaTime);
         }
+    }
+
+    IEnumerator Kill() {
+        yield return new WaitForSeconds(Random.Range(2, 4));
+
+        GameObject.Destroy(gameObject);
     }
 }
