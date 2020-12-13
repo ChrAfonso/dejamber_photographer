@@ -10,6 +10,8 @@ public class MoveToTarget : MonoBehaviour
     public float MinArriveDistance;
     public float MoveSpeed;
 
+    public AudioClip SoundOnArrival;
+
     public bool arrived { get; private set; } = false;
 
     // Start is called before the first frame update
@@ -38,6 +40,10 @@ public class MoveToTarget : MonoBehaviour
             } else {
                 Debug.Log("Arrived at target!");
                 this.arrived = true;
+
+                if(SoundOnArrival) {
+                    gameObject.GetComponent<AudioSource>().PlayOneShot(SoundOnArrival);
+                }
             }
         }
     }
