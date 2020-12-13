@@ -130,14 +130,18 @@ public class GameController : MonoBehaviour
 
     public PhotoScore GetBestScore()
     {
-        PhotoScore best = new PhotoScore(null, 0);
-        foreach(PhotoScore score in scores) {
-            if(score.score > best.score) {
-                best = score;
+        if(scores.Count == 0) {
+            // timer ran out, no photos
+            return new PhotoScore(null, 0);
+        } else {
+            PhotoScore best = scores[0];
+            foreach(PhotoScore score in scores) {
+                if(score.score > best.score) {
+                    best = score;
+                }
             }
+            return best;
         }
-
-        return best;
     }
 
     private float CalculateScore()
