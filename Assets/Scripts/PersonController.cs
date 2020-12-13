@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 // Control state of person: trigger happy/nervous states, start cooldown/move, reset to home position, show item desire
@@ -22,7 +20,7 @@ public class PersonController : MonoBehaviour
     public Sprite movingSprite;
     public Sprite arrivedSprite;
 
-    public States playerState { get; private set; } = States.HAPPY;
+    public States playerState { get; private set; } = States.BORED;
 
     private GameObject homePosition;
     private Collider2D homeCollider;
@@ -46,16 +44,16 @@ public class PersonController : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // Sprite is in child object
 
         cooldown = gameObject.GetComponent<Cooldown>();
-        // moodCooldown = gameObject.GetComponent<Mood>();
+        moodCooldown = gameObject.GetComponent<Mood>();
         moveToTarget = gameObject.GetComponent<MoveToTarget>(); // TODO replace with generic moveToTarget
 
         // set random values for cooldowns
         cooldown.DurationCD = Random.Range(5, 7);
-        // moodCooldown.MoodValue = Random.Range(8, 10);
+        if(moodCooldown) moodCooldown.MoodValue = Random.Range(8, 10);
 
         overlapsTriggers = new List<Collider2D>();
 
-        EnterState(States.HAPPY);
+        EnterState(playerState);
     }
 
     // Update is called once per frame
@@ -63,6 +61,7 @@ public class PersonController : MonoBehaviour
     {
         switch(playerState) {
             case States.HAPPY:
+                // TODO moodcooldown here
                 if (cooldown.getValue() <= 0.5)
                 {
                     // TODO visual notification for desire
@@ -104,6 +103,7 @@ public class PersonController : MonoBehaviour
     private void EnterState(States newState) {
         switch(newState) {
             case States.HAPPY:
+                // TODO start moodcooldown
                 cooldown.enabled = true;
                 cooldown.Reset();
                 if(moveToTarget) moveToTarget.enabled = false;
@@ -112,8 +112,10 @@ public class PersonController : MonoBehaviour
                 break;
 
             case States.BORED:
-                if(moveToTarget) moveToTarget.enabled = false;
+                // start (move) cooldown, disable moodCooldown
                 cooldown.enabled = true;
+                cooldown.Reset();
+                if(moveToTarget) moveToTarget.enabled = false;
 
                 if(spriteRenderer) spriteRenderer.sprite = boredSprite;
                 break;
@@ -172,7 +174,7 @@ public class PersonController : MonoBehaviour
             
             transform.position = homePosition.transform.position;
             
-            EnterState(States.HAPPY);
+            EnterState(States.BORED);
         }
         else
         {
