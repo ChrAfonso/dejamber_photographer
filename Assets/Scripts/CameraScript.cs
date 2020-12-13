@@ -6,13 +6,14 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     public GameObject PictureFrame;
-    public float Delay = 3;
+    public float Delay = 2;
+    bool lockCamera = false;
 
     WaitForEndOfFrame frameEnd = new WaitForEndOfFrame();
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!lockCamera && Input.GetMouseButtonDown(0))
         {
             Ray worldRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(worldRay);
@@ -23,6 +24,7 @@ public class CameraScript : MonoBehaviour
                     
                     GetComponent<AudioSource>().Play();
 
+                    lockCamera = true;
                     StartCoroutine("TakePhoto");
                 }
             }
@@ -44,6 +46,7 @@ public class CameraScript : MonoBehaviour
         Texture2D screenshot = SC_ScreenAPI.CaptureScreen(bounds);
 
         GameController.instance.SaveScreenshot(screenshot);
+        lockCamera = false;
     }
 
     public Rect BoundsToScreenRect(Bounds bounds)
@@ -58,10 +61,7 @@ public class CameraScript : MonoBehaviour
         // Debug.Log("vp bounds: " + origin + " - " + extent);
         
         // Create rect in screen space and return - does not account for camera perspective
+        // HACK: currently disregarded for hard values!
         return new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
-        // return new Rect(
-        //     origin.x * Screen.width, Screen.height * (origin.y), 
-        //     Screen.width * (extent.x - origin.x), Screen.height * (origin.y - extent.y)
-        // );
     }
 }
