@@ -38,12 +38,20 @@ public class CameraScript : MonoBehaviour
         Rect bounds = Rect.zero;
         if(PictureFrame) {
             Bounds frameBounds = PictureFrame.GetComponent<Renderer>().bounds;
-            Vector2 topleft = Camera.main.WorldToScreenPoint(frameBounds.min);
-            Vector2 size = Camera.main.WorldToScreenPoint(frameBounds.size);
-            bounds.Set(topleft.x, topleft.y, size.x, size.y);
+            bounds = BoundsToScreenRect(frameBounds);
         }
         Texture2D screenshot = SC_ScreenAPI.CaptureScreen(bounds);
 
         GameController.instance.SaveScreenshot(screenshot);
+    }
+
+    public Rect BoundsToScreenRect(Bounds bounds)
+    {
+        // Get mesh origin and farthest extent (this works best with simple convex meshes)
+        Vector3 origin = Camera.main.WorldToScreenPoint(new Vector3(bounds.min.x, bounds.max.y, 0f));
+        Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.min.y, 0f));
+        
+        // Create rect in screen space and return - does not account for camera perspective
+        return new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
     }
 }

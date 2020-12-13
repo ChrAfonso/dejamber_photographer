@@ -102,8 +102,6 @@ public class GameController : MonoBehaviour
             homePosition.GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
 
-        pictureFrame = GameObject.FindGameObjectWithTag("PictureFrame");
-
         EnterState(States.GAME);
     }
 
