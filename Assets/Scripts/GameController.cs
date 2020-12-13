@@ -59,6 +59,7 @@ public class GameController : MonoBehaviour
         _instance = this;
 
         familyTransform = GameObject.Find("Family").transform;
+        pictureFrame = GameObject.Find("PictureFrame");
         photoCounter = GameObject.Find("PhotoIconBar").GetComponent<PhotoCounter>();
         timer = GameObject.Find("Timer").GetComponent<Timer>();
 
@@ -181,6 +182,8 @@ public class GameController : MonoBehaviour
         }
 
         // TODO shoppers - match overlap with pictureFrame
+        int shoppers = pictureFrame.GetComponent<CheckShoppersInPicture>().CountShoppersInPicture();
+        score += (shoppers * PointsForShopper);
 
         return score;
     }
