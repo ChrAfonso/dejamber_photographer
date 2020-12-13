@@ -20,7 +20,8 @@ public class CameraScript : MonoBehaviour
             {
                 if(hit.collider.gameObject == gameObject) {
                     Debug.Log("Say cheeeeeeese!");
-                    // TODO Sound
+                    
+                    GetComponent<AudioSource>().Play();
 
                     StartCoroutine("TakePhoto");
                 }
@@ -50,8 +51,17 @@ public class CameraScript : MonoBehaviour
         // Get mesh origin and farthest extent (this works best with simple convex meshes)
         Vector3 origin = Camera.main.WorldToScreenPoint(new Vector3(bounds.min.x, bounds.max.y, 0f));
         Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.min.y, 0f));
+        Debug.Log("screen bounds: " + origin + " - " + extent);
+        
+        // origin = Camera.main.WorldToViewportPoint(new Vector3(bounds.min.x, bounds.max.y, 0f));
+        // extent = Camera.main.WorldToViewportPoint(new Vector3(bounds.max.x, bounds.min.y, 0f));
+        // Debug.Log("vp bounds: " + origin + " - " + extent);
         
         // Create rect in screen space and return - does not account for camera perspective
         return new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
+        // return new Rect(
+        //     origin.x * Screen.width, Screen.height * (origin.y), 
+        //     Screen.width * (extent.x - origin.x), Screen.height * (origin.y - extent.y)
+        // );
     }
 }

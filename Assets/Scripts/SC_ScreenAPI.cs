@@ -16,6 +16,12 @@ public static class SC_ScreenAPI
             bounds.y = 0;
             bounds.width = Screen.width;
             bounds.height = Screen.height;
+        } else {
+            // HACK
+            bounds.x = 0.38f * Screen.width; // from left to right
+            bounds.y = 0.02f * Screen.height; // from bottom up?
+            bounds.width = 0.28f * Screen.width;
+            bounds.height = 0.3f * Screen.height;
         }
         Texture2D screenshot = new Texture2D((int)bounds.width, (int)bounds.height, TextureFormat.RGB24, false);
         //Read screen contents into the texture
