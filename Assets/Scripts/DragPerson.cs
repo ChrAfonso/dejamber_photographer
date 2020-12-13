@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DragPerson : MonoBehaviour
 {
+    private static bool dragLock = false;
+
     private GameObject currentDraggingPerson; 
     private Vector3 currentDraggingPoint;
     private Vector3 mouseDownpoint;
@@ -18,7 +20,7 @@ public class DragPerson : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)) {
+        if(!dragLock && Input.GetMouseButtonDown(0)) {
             // Debug.Log("mousedown!");
             Ray worldRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(worldRay);
@@ -32,6 +34,7 @@ public class DragPerson : MonoBehaviour
                     currentDraggingPoint = gameObject.transform.worldToLocalMatrix.MultiplyPoint3x4(hit.point);
                     mouseDownpoint = Input.mousePosition;
                     dragMoved = false;
+                    dragLock = true; // don'r let others drag at same time
 
                     PersonController personController = currentDraggingPerson.GetComponent<PersonController>();
                     if (personController)
@@ -51,6 +54,7 @@ public class DragPerson : MonoBehaviour
                 }
 
                 currentDraggingPerson = null;
+                dragLock = false;
             }
         }
 
