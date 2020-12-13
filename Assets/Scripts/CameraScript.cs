@@ -20,8 +20,6 @@ public class CameraScript : MonoBehaviour
             foreach (RaycastHit2D hit in hits)
             {
                 if(hit.collider.gameObject == gameObject) {
-                    Debug.Log("Say cheeeeeeese!");
-                    
                     GetComponent<AudioSource>().Play();
 
                     lockCamera = true;
