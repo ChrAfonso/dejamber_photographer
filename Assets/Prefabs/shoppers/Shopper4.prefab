@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2829814750619062313}
   - component: {fileID: 946630415451085525}
   - component: {fileID: 4681713524661560599}
+  - component: {fileID: 8321744549393472037}
   m_Layer: 0
   m_Name: Shopper4
   m_TagString: Shopper
@@ -95,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Direction: {x: 4, y: 0}
+  Move: 1
 --- !u!61 &946630415451085525
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -142,3 +144,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8321744549393472037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829814750619062315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf554f714e42f5248a62fd4c21e05d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
