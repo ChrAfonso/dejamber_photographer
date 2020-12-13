@@ -37,6 +37,8 @@ public class GameController : MonoBehaviour
     public float PointsForWalkingInFrame = 0.5f;
     public float PointsForShopper = -1;
 
+    public bool ShowStatus = true;
+
     // detected/generated objects/groups
     private List<GameObject> persons;
 
@@ -102,6 +104,8 @@ public class GameController : MonoBehaviour
                 }
             }
             // TODO mood cooldown/item settings?
+
+            person.transform.Find("StateText").gameObject.SetActive(ShowStatus);
 
             persons.Add(person);
         }
