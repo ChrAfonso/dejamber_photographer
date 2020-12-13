@@ -212,4 +212,12 @@ public class PersonController : MonoBehaviour
         this.homePosition = homePosition;
         this.homeCollider = homePosition.GetComponent<Collider2D>();
     }
+
+    public void CheckItem(Collider2D itemCollider)
+    {
+        if(overlapsTriggers.Contains(itemCollider)) {
+            // TODO check correct one
+            EnterState(States.HAPPY);
+        }
+    }
 }

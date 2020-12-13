@@ -6,10 +6,12 @@ public class DragItem : MonoBehaviour
 {
     private GameObject currentDraggingItem;
 
+    private Vector3 spawnPosition;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        spawnPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -37,6 +39,12 @@ public class DragItem : MonoBehaviour
             if (currentDraggingItem)
             {
               currentDraggingItem = null;
+              transform.position = spawnPosition; // reset
+              
+              // HACKY
+              foreach(GameObject person in GameObject.FindGameObjectsWithTag("Person")) {
+                  person.GetComponent<PersonController>().CheckItem(gameObject.GetComponent<Collider2D>());
+              }
             }
         }
 
