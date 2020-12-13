@@ -18,6 +18,10 @@ public class PhotoCounter : MonoBehaviour
 
     public void ShowIcons(int number)
     {
+        if(photoIcons == null) {
+            return; // not initialized yet
+        }
+
         if(number > 3) number = 3;
         if(number < 1) number = 1;
 

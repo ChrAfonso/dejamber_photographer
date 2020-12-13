@@ -8,14 +8,18 @@ public static class SC_ScreenAPI
     /// </summary>
     /// <param name="limitSize">If above 0, will make sure that the width and height of the captured image are equal or less than specified.</param>
     /// <returns>Returns a Texture2D.</returns>
-    public static Texture2D CaptureScreen(int limitSize = 0)
+    public static Texture2D CaptureScreen(Rect bounds, int limitSize = 0)
     {
+        if(bounds.Equals(Rect.zero)) {
         //Create a texture the size of the screen, RGB24 format
-        int width = Screen.width;
-        int height = Screen.height;
-        Texture2D screenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
+            bounds.x = 0;
+            bounds.y = 0;
+            bounds.width = Screen.width;
+            bounds.height = Screen.height;
+        }
+        Texture2D screenshot = new Texture2D((int)bounds.width, (int)bounds.height, TextureFormat.RGB24, false);
         //Read screen contents into the texture
-        screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        screenshot.ReadPixels(bounds, 0, 0);
         screenshot.Apply();
 
         if (limitSize > 0)

@@ -181,9 +181,9 @@ public class GameController : MonoBehaviour
                 break;
             case States.END:
                 Debug.Log("END! Best score: "+GetBestScore().score);
-                // TODO show screenshot
                 GameObject.DontDestroyOnLoad(gameObject);
                 SceneManager.LoadScene("EndScreen");
+                // TODO show Screenshot
                 break;
         }
 
@@ -204,7 +204,11 @@ public class GameController : MonoBehaviour
             case States.GAME:
                 break;
             case States.END:
-                // TODO on click start new round?
+                // TODO on click start new round, replace with menu button?
+                if(Input.GetMouseButtonDown(0)) { // anywhere
+                    GameObject.Destroy(gameObject); // in game scene, a new one will be created
+                    SceneManager.LoadScene("Menu");
+                }
                 break;
         }
     }

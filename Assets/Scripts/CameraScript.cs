@@ -20,7 +20,15 @@ public class CameraScript : MonoBehaviour
             {
                 if(hit.collider.gameObject == gameObject) {
                     Debug.Log("screenshot!");
-                    Texture2D screenshot = SC_ScreenAPI.CaptureScreen();
+
+                    Rect bounds = Rect.zero;
+                    if(PictureFrame) {
+                        Bounds frameBounds = PictureFrame.GetComponent<Renderer>().bounds;
+                        Vector2 topleft = Camera.main.WorldToScreenPoint(frameBounds.min);
+                        Vector2 size = Camera.main.WorldToScreenPoint(frameBounds.size);
+                        bounds.Set(topleft.x, topleft.y, size.x, size.y);
+                    }
+                    Texture2D screenshot = SC_ScreenAPI.CaptureScreen(bounds);
 
                     GameController.instance.SaveScreenshot(screenshot);
                 }
