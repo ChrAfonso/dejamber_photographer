@@ -141,6 +141,11 @@ public class PersonController : MonoBehaviour
                 if(moveToTarget) moveToTarget.enabled = false;
                 cooldown.enabled = false;
 
+                if(!moveToTarget) {
+                    // Grandparents
+                    gameObject.GetComponent<AudioSource>()?.Play();
+                }
+
                 if(spriteRenderer) spriteRenderer.sprite = sleepSprite;
                 break;
         }
