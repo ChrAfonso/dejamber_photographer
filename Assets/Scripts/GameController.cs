@@ -57,8 +57,8 @@ public class GameController : MonoBehaviour
         _instance = this;
 
         familyTransform = GameObject.Find("Family").transform;
-        photoCounter = GameObject.Find("PhotoIconBar")?.GetComponent<PhotoCounter>();
-        timer = GameObject.Find("Timer")?.GetComponent<Timer>();
+        photoCounter = GameObject.Find("PhotoIconBar").GetComponent<PhotoCounter>();
+        timer = GameObject.Find("Timer").GetComponent<Timer>();
 
         EnterState(currentState);
     }
@@ -73,8 +73,8 @@ public class GameController : MonoBehaviour
             persons = null;
         }
 
-        timer?.Reset();
-        photoCounter?.ShowIcons(3);
+        timer.Reset();
+        photoCounter.ShowIcons(3);
         scores = new List<PhotoScore>();
 
         // TODO more?

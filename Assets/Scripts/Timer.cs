@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    private TextMeshPro textMesh;
+    public TextMeshPro textMesh;
 
     public float TotalTime = 120;
 
@@ -17,7 +17,7 @@ public class Timer : MonoBehaviour
 
     private void Start()
     {
-        textMesh = GetComponent<TextMeshPro>();
+        if(!textMesh) textMesh = gameObject.GetComponent<TextMeshPro>();
     }
 
     public void Reset()
