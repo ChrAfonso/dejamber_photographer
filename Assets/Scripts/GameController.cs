@@ -88,12 +88,18 @@ public class GameController : MonoBehaviour
 
         persons = new List<GameObject>();
         for(int p = 0; p < PersonPrefabs.Length; p++) {
-            GameObject person = GameObject.Instantiate(PersonPrefabs[p]);
-            person.transform.parent = familyTransform;
-
-            // Set home position
-            person.GetComponent<PersonController>().SetHomePosition(homePositions[p]);
-            person.transform.position = homePositions[p].transform.position;
+            GameObject person = familyTransform.Find(PersonPrefabs[p].name).gameObject;
+            if(person != null) {
+                Debug.Log("Person "+person.name+" already placed by hand!");
+                person.GetComponent<PersonController>().SetHomePosition(homePositions[p]);
+            } else {
+                person = GameObject.Instantiate(PersonPrefabs[p]);
+                person.transform.parent = familyTransform;
+                
+                // Set home position
+                person.GetComponent<PersonController>().SetHomePosition(homePositions[p]);
+                person.transform.position = homePositions[p].transform.position;
+            }
 
             // Find and assign target
             MoveToTarget moveToTarget = person.GetComponent<MoveToTarget>();
