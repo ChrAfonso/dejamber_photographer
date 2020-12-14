@@ -20,6 +20,8 @@ public class PersonController : MonoBehaviour
     public Sprite movingSprite;
     public Sprite arrivedSprite;
 
+    public string NeededItemName;
+
     public States playerState { get; private set; } = States.BORED;
 
     private GameObject homePosition;
@@ -216,8 +218,9 @@ public class PersonController : MonoBehaviour
     public void CheckItem(Collider2D itemCollider)
     {
         if(overlapsTriggers.Contains(itemCollider)) {
-            // TODO check correct one
-            EnterState(States.HAPPY);
+            if(NeededItemName == itemCollider.gameObject.name) {
+                EnterState(States.HAPPY);
+            }
         }
     }
 }

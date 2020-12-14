@@ -67,6 +67,7 @@ MonoBehaviour:
   sleepSprite: {fileID: 21300000, guid: 6597fc99aa0632944881a16d113aac3e, type: 3}
   movingSprite: {fileID: 21300000, guid: 74aeae5fe7d931d4e8f5ce63e62f8bc9, type: 3}
   arrivedSprite: {fileID: 21300000, guid: 74aeae5fe7d931d4e8f5ce63e62f8bc9, type: 3}
+  NeededItemName: Medication
 --- !u!114 &5046535629233055348
 MonoBehaviour:
   m_ObjectHideFlags: 0

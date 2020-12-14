@@ -67,6 +67,7 @@ MonoBehaviour:
   sleepSprite: {fileID: 21300000, guid: c949ae23872af1c4489fd73c8d49c120, type: 3}
   movingSprite: {fileID: 21300000, guid: ceb090477f7c111439ddbf80ed82a71b, type: 3}
   arrivedSprite: {fileID: 21300000, guid: ceb090477f7c111439ddbf80ed82a71b, type: 3}
+  NeededItemName: Snack
 --- !u!114 &5046535629233055348
 MonoBehaviour:
   m_ObjectHideFlags: 0

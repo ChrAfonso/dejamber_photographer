@@ -68,6 +68,7 @@ MonoBehaviour:
   sleepSprite: {fileID: 21300000, guid: aeb8aca9fa3b2e64f99e6cea3c0ec879, type: 3}
   movingSprite: {fileID: 21300000, guid: 3e5643778889ca242ac8306862e84e04, type: 3}
   arrivedSprite: {fileID: 21300000, guid: 3e5643778889ca242ac8306862e84e04, type: 3}
+  NeededItemName: Ice
 --- !u!114 &5046535629233055348
 MonoBehaviour:
   m_ObjectHideFlags: 0
