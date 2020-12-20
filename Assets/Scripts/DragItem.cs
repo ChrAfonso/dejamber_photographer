@@ -19,7 +19,7 @@ public class DragItem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-             Debug.Log("mousedown!");
+            Debug.Log("mousedown!");
             Ray worldRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(worldRay);
             if (hit)
@@ -30,6 +30,12 @@ public class DragItem : MonoBehaviour
                 {
                     Debug.Log("currentDraggingItem: " + gameObject.name);
                     currentDraggingItem = clickedObject;
+
+                    // highlight associated person
+                    // HACKY
+                    foreach(GameObject person in GameObject.FindGameObjectsWithTag("Person")) {
+                        person.GetComponent<PersonController>().CheckItemHighlight(gameObject.name);
+                    }
                 }
             }
         }
@@ -43,6 +49,7 @@ public class DragItem : MonoBehaviour
               
               // HACKY
               foreach(GameObject person in GameObject.FindGameObjectsWithTag("Person")) {
+                  person.GetComponent<PersonController>().CheckItemHighlight(gameObject.name, false);
                   person.GetComponent<PersonController>().CheckItem(gameObject.GetComponent<Collider2D>());
               }
             }

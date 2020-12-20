@@ -26,6 +26,8 @@ public class PersonController : MonoBehaviour
 
     private GameObject homePosition;
     private Collider2D homeCollider;
+
+    private SpriteRenderer highlight;
     
     private bool dragging = false;
 
@@ -48,6 +50,7 @@ public class PersonController : MonoBehaviour
         cooldown = gameObject.GetComponent<Cooldown>();
         moodCooldown = gameObject.GetComponent<Mood>();
         moveToTarget = gameObject.GetComponent<MoveToTarget>(); // TODO replace with generic moveToTarget
+        highlight = gameObject.transform.Find("Highlight")?.GetComponent<SpriteRenderer>();
 
         // set random values for cooldowns
         cooldown.DurationCD = Random.Range(5, 7);
@@ -220,6 +223,17 @@ public class PersonController : MonoBehaviour
         if(overlapsTriggers.Contains(itemCollider)) {
             if(NeededItemName == itemCollider.gameObject.name) {
                 EnterState(States.HAPPY);
+            }
+        }
+    }
+
+    public void CheckItemHighlight(string itemName, bool show = true)
+    {
+        if(highlight) {
+            if(NeededItemName.Equals(itemName)) {
+                highlight.enabled = show;
+            } else {
+                highlight.enabled = false;
             }
         }
     }
