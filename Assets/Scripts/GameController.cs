@@ -139,6 +139,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void TimeUp()
+    {
+        EnterState(States.END);
+    }
+
     public PhotoScore GetBestScore()
     {
         if(scores.Count == 0) {

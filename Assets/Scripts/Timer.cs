@@ -38,7 +38,12 @@ public class Timer : MonoBehaviour
 
             textMesh.text = string.Format("{0:00}:{1:00}", min, sec);
 
-            yield return null;
+            if(time <= 0) {
+                GameController.instance.TimeUp();
+                break;
+            } else {
+                yield return null;
+            }
         }
     }
 }
