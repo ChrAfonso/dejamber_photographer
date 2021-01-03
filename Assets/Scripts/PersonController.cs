@@ -230,7 +230,7 @@ public class PersonController : MonoBehaviour
     public void CheckItemHighlight(string itemName, bool show = true)
     {
         if(highlight) {
-            if(NeededItemName.Equals(itemName)) {
+            if(NeededItemName.Equals(itemName) && this.playerState != States.HAPPY) {
                 highlight.enabled = show;
             } else {
                 highlight.enabled = false;
