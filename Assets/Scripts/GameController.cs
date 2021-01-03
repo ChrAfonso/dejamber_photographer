@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
     private Transform familyTransform;
 
     private GameObject pictureFrame;
-    private PhotoCounter photoCounter;
+    // private PhotoCounter photoCounter;
     private Timer timer;
 
     private States currentState = States.SETUP;
@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour
 
         familyTransform = GameObject.Find("Family").transform;
         pictureFrame = GameObject.Find("PictureFrame");
-        photoCounter = GameObject.Find("PhotoIconBar").GetComponent<PhotoCounter>();
+        // photoCounter = GameObject.Find("PhotoIconBar").GetComponent<PhotoCounter>();
         timer = GameObject.Find("Timer").GetComponent<Timer>();
 
         EnterState(currentState);
@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
         }
 
         timer.Reset();
-        photoCounter.ShowIcons(3);
+        // photoCounter.ShowIcons(3);
         scores = new List<PhotoScore>();
 
         // TODO more?
@@ -132,11 +132,11 @@ public class GameController : MonoBehaviour
         scores.Add(new PhotoScore(screenshot, score));
         Debug.Log("Saved score "+scores.Count+": "+score);
 
-        photoCounter.ShowIcons(3 - scores.Count);
+        // photoCounter.ShowIcons(3 - scores.Count);
 
-        if(scores.Count >= 3) {
-            EnterState(States.END);
-        }
+        // if(scores.Count >= 3) {
+        //     EnterState(States.END);
+        // }
     }
 
     public void TimeUp()
@@ -170,19 +170,20 @@ public class GameController : MonoBehaviour
         // -1 point for every shopper in the picture
         //
         // TODO optional: fractional points for just-still-in-frame WALKING persons, depending on distance from home
+        List<GameObject> personsInPicture = pictureFrame.GetComponent<CheckShoppersInPicture>().FamilyInPicture();
         foreach(GameObject person in persons) {
-            switch(person.GetComponent<PersonController>().playerState) {
-                case PersonController.States.HAPPY:
-                    score += PointsForHappy;
-                    break;
-                case PersonController.States.BORED:
-                    score += PointsForBored;
-                    break;
-                case PersonController.States.MOVING:
-                    // if(inFrame) { // TODO check if in frame
-                    //     score += PointsForWalkingInFrame;
-                    // }
-                    break;
+            if(personsInPicture.Contains(person)) {
+                switch(person.GetComponent<PersonController>().playerState) {
+                    case PersonController.States.HAPPY:
+                        score += PointsForHappy;
+                        break;
+                    case PersonController.States.BORED:
+                        score += PointsForBored;
+                        break;
+                    case PersonController.States.MOVING:
+                        // score += PointsForWalkingInFrame;
+                        break;
+                }
             }
         }
 

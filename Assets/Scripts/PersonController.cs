@@ -24,6 +24,8 @@ public class PersonController : MonoBehaviour
 
     public States playerState { get; private set; } = States.BORED;
 
+    public States InitialState = States.BORED;
+
     private GameObject homePosition;
     private Collider2D homeCollider;
 
@@ -58,7 +60,7 @@ public class PersonController : MonoBehaviour
 
         overlapsTriggers = new List<Collider2D>();
 
-        EnterState(playerState);
+        EnterState(InitialState);
     }
 
     // Update is called once per frame
